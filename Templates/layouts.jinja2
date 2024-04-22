@@ -1,0 +1,24 @@
+!DOCTYPE html>
+
+<html lang = "en">
+
+<head>
+    <meta charset="utf-8/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge/>
+    <title>{{ title }}</title>
+    <meta name="HanheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="theme-color" content="#5eb9d"/>
+
+    {% block styles %}{% endblock %}
+
+    <script src="https://kit.fontawesome.com/e3deaeba31.js" crossorigin="anonynous"></script>
+    <link href-"https://fonts.googleapis.com/css?family=Poppins:200,300,509" rel="stylesheet">
+</head>
+
+<body class="{{ template }}"> 
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</html>
