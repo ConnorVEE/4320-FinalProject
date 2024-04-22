@@ -1,16 +1,10 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import (
-    DateField, 
-    PasswordField,
     SelectField,
-    StringField,
     SubmitField,
-    TextAreaField,
 )
-from datetime import date
-from wtforms.fields import DateField
-from wtforms.validators import URL, DataRequired, Email, EqualTo, Length
 
+from wtforms.validators import URL, DataRequired, Email, EqualTo, Length
 
 class OpeningForm(FlaskForm):
     
@@ -20,3 +14,5 @@ class OpeningForm(FlaskForm):
             ("2", "Reservations"),
         ], 
     )
+
+    submit = SubmitField("Submit")
