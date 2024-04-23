@@ -8,13 +8,39 @@
 {% block content %}
     <div class="formwrapper">
 
-        <h2 class="title">4320 Trip Reservation Application</h2>
-        <!-- {% if err %}
+        <h2 class="title">Admin Login</h2>
+        {% if err %}
             <p>{{ err }}</p>
         {% endif %}
-        <form method="POST" action="/start">
-            
-        </form> -->
-      
+
+        <form method="POST" action="/login">
+            {{ form.csrf_token }}
+
+            <div class="form-field">
+                {{ form.admin_user.label }} 
+                {{ from.admin_user }}
+                {% if form.admin_user.errors %}
+                    <ul class="errors">
+                        {% for error in form.admin_user.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-field">
+                {{ form.admin_passwd.label }} 
+                {{ form.admin_passwd }} 
+                {% if form.admin_passwd.errors %}
+                    <ul class="errors">
+                        {% for error in form.symbol.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            {{ form.submit }}
+        </form>
   </div>
 {% endblock %}
