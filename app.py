@@ -70,7 +70,7 @@ def login():
 
         if authorize_admin_login(username, password):
             print("Success")
-            # return #add logic to add the chart and total sales upon successful login
+            return redirect('/adminView')
         else:
             err = 'Incorrect username or password, please try again'
             return render_template("login.html", form=form, err=err) 
