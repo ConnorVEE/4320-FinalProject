@@ -16,9 +16,7 @@
         <form method="POST" action="/login">
             {{ form.csrf_token }}
 
-            <div class="form-field">
-                {{ form.admin_user.label }} 
-                {{ from.admin_user }}
+            <div class="form-field"> {{ form.admin_user.label }} {{ form.admin_user }}
                 {% if form.admin_user.errors %}
                     <ul class="errors">
                         {% for error in form.admin_user.errors %}
@@ -28,9 +26,7 @@
                 {% endif %}
             </div>
 
-            <div class="form-field">
-                {{ form.admin_passwd.label }} 
-                {{ form.admin_passwd }} 
+            <div class="form-field"> {{ form.admin_passwd.label }} {{ form.admin_passwd }} 
                 {% if form.admin_passwd.errors %}
                     <ul class="errors">
                         {% for error in form.symbol.errors %}

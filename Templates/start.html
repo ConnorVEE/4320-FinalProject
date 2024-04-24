@@ -13,7 +13,7 @@
         <p>{{ err }}</p>
     {% endif %}
 
-    <form method="POST" action="/start">
+    <form method="POST" action="/">
         {{ form.csrf_token }}
 
         <div class="form-field">{{ form.action_type.label }} {{ form.action_type }}

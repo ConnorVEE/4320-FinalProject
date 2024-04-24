@@ -5,9 +5,11 @@ from flask import redirect, render_template, url_for, request, flash
 from Forms.OpeningForm import OpeningForm
 from Forms.LoginForm import AdminLogin
 
+import sqlite3
+
 app = Flask(__name__)
 
-import sqlite3
+### Database Functions ###
 
 def get_db_connection(db_path='./Database/reservations.db'): #establish db connection
     conn = sqlite3.connect(db_path)
@@ -33,12 +35,16 @@ def add_reservation(): #add parameters, method to check if reserved spot is alre
         cursor = conn.cursor()
     finally:
         conn.close()
+
+
+### Application Functions ###
                     
 # Generate a secret key. This key will be used to help with security and authentication
 import os
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+## Opening form
 @app.route('/', methods=['GET', 'POST'])
 def start():
     form = OpeningForm()
@@ -53,24 +59,35 @@ def start():
 
     return render_template("start.html", form=form)
 
+## Admin Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = AdminLogin()
+
     if form.validate_on_submit():
         username = form.admin_user.data
         password = form.admin_passwd.data
+
         if authorize_admin_login(username, password):
-            return #add logic to add the chart and total sales upon successful login
+            print("Success")
+            # return #add logic to add the chart and total sales upon successful login
         else:
-            err = 'Incorrect username or password.'
-            return render_template("login.html", form=form, err=err)
+            err = 'Incorrect username or password, please try again'
+            return render_template("login.html", form=form, err=err) 
             
     return render_template("login.html", form=form)
 
+# Make a reservation page
 @app.route('/reservations', methods=['GET', 'POST'])
 def reservations():
     # Handle reservations page logic here
     return render_template("reservations.html")
+
+## Admin View Page
+@app.route('/adminView', methods={'GET', 'POST'})
+def adminView():
+    # Handle Adminview logic here
+    return render_template("adminView.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

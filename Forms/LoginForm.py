@@ -12,4 +12,4 @@ class AdminLogin(FlaskForm):
     
     admin_passwd = StringField("Password", [DataRequired(message="Password is required")])
     
-    sumbit = SubmitField("Login")
+    submit = SubmitField("Login")
