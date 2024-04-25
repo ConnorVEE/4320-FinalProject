@@ -9,12 +9,55 @@
     <div class="formwrapper">
 
         <h2 class="title">4320 Trip Reservation Application</h2>
-        <!-- {% if err %}
+        {% if err %}
             <p>{{ err }}</p>
         {% endif %}
-        <form method="POST" action="/start">
+
+        <!--Once we get our db connected here, we will give the action parameter the path to saving/validating data with db-->
+
+        <form method="POST" action="/reservations">
+            {{ form.csrf_token }}
+
+            <div class="form-field"> {{ form.firstName.label }} {{ form.firstName }}
+                {% if form.firstName.errors %}
+                    <ul class="errors">
+                        {% for error in form.firstName.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
             
-        </form> -->
-      
+            <div class="form-field"> {{ form.lastName.label }} {{ form.lastName }}
+                    {% if form.lastName.errors %}
+                        <ul class="errors">
+                            {% for error in form.lastName.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+            </div>
+
+            <div class="form-field"> {{ form.seatRow.label }} {{ form.seatRow }}
+                {% if form.seatRow.errors %}
+                    <ul class="errors">
+                        {% for error in form.seatRow.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-field"> {{ form.seatColumn.label }} {{ form.seatColumn }}
+                {% if form.seatColumn.errors %}
+                    <ul class="errors">
+                        {% for error in form.seatColumn.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {{ form.submit }}
+        </form>
   </div>
 {% endblock %}

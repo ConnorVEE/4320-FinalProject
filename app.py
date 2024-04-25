@@ -4,6 +4,7 @@ from flask import redirect, render_template, url_for, request, flash
 
 from Forms.OpeningForm import OpeningForm
 from Forms.LoginForm import AdminLogin
+from Forms.ReservationForm import Reservations
 
 import sqlite3
 
@@ -81,7 +82,12 @@ def login():
 @app.route('/reservations', methods=['GET', 'POST'])
 def reservations():
     # Handle reservations page logic here
-    return render_template("reservations.html")
+    form = Reservations()
+    if form.validate_on_submit():
+        ##This is where we will need to take the user parameters and check them with db
+        # Redirect to a success page or perform another action
+        return "Reservation confirmed! Thank you."
+    return render_template('reservations.html', form=form)
 
 ## Admin View Page
 @app.route('/adminView', methods={'GET', 'POST'})
