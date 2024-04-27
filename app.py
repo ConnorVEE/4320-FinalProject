@@ -65,6 +65,24 @@ def get_seating_info():
 
 
 ### Application Functions ###
+
+# Create unique user key 
+def keyCreator(name):
+    keyWord = "INFOTC4320"
+    meshed = ''
+
+    # Determine the length of the longer string
+    max_len = max(len(name), len(keyWord))
+    
+    # Iterate through both strings simultaneously
+    for i in range(max_len):
+        if i < len(name):
+            meshed += name[i]
+        if i < len(keyWord):
+            meshed += keyWord[i]
+    
+    return meshed
+
                     
 # Generate a secret key. This key will be used to help with security and authentication
 import os
@@ -123,8 +141,10 @@ def reservations():
 ## Admin View Page
 @app.route('/adminView', methods={'GET', 'POST'})
 def adminView():
-    # Handle Adminview logic here
-    return render_template("adminView.html")
+    ## Get seating info from db
+    seating_info = get_seating_info()
+
+    return render_template("adminView.html", seating_info = seating_info)
 
 if __name__ == '__main__':
     app.run(debug=True)
