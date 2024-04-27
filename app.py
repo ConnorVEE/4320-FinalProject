@@ -104,6 +104,7 @@ def start():
 
     return render_template("start.html", form=form)
 
+
 ## Admin Login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -122,6 +123,7 @@ def login():
             
     return render_template("login.html", form=form)
 
+
 # Make a reservation page
 @app.route('/reservations', methods=['GET', 'POST'])
 def reservations():
@@ -132,11 +134,19 @@ def reservations():
     form = Reservations()
 
     if form.validate_on_submit():
-        ##This is where we will need to take the user parameters and check them with db
-        # Redirect to a success page or perform another action
-        return "Reservation confirmed! Thank you."
+        userKey = keyCreator(form.firstName)
+        ### We still need to get the timestamp ###
+
+        #Push new data to the database
+        #This can be done with a function being created in the ^^ Databases functions section
+
+
+        seating_info = get_seating_info()
+        return render_template('reservations.html', form=form, seating_info = seating_info, userKey=userKey) 
+        # return "Reservation confirmed! Thank you."
     
     return render_template('reservations.html', form=form, seating_info = seating_info)
+
 
 ## Admin View Page
 @app.route('/adminView', methods={'GET', 'POST'})

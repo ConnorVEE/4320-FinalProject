@@ -13,6 +13,13 @@
             <p>{{ err }}</p>
         {% endif %}
 
+        {% if userKey %}
+          <div id="userKey">
+            <p>Congratulations! You have been registered</p>
+            <p>Here is your unique eTicket Number: {{ userKey }}</p>
+          </div>
+        {% endif %}
+
         <div class="seating-chart">
             {% for row_num in range(1, 13) %}
                 <div class="row">
