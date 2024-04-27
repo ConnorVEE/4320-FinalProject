@@ -2,7 +2,7 @@
 
 <!-- Pull css from here -->
 {% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/main.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -12,6 +12,19 @@
         {% if err %}
             <p>{{ err }}</p>
         {% endif %}
+
+        <div class="seating-chart">
+            {% for row_num in range(12) %}
+                <div class="row">
+                    {% for col_num in range(4) %}
+                        {% set seat = seating_info[row_num * 4 + col_num] %}
+                        <div class="seat {% if seat and seat['passenger_name'] %}taken{% endif %}">
+                            {{ row_num }} - {{ col_num }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>        
 
         <!--Once we get our db connected here, we will give the action parameter the path to saving/validating data with db-->
 

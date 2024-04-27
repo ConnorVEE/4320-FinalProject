@@ -37,6 +37,32 @@ def add_reservation(): #add parameters, method to check if reserved spot is alre
     finally:
         conn.close()
 
+# retrieve seating info
+
+def get_seating_info():
+    conn = get_db_connection()
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM reservations")
+        rows = cursor.fetchall()
+
+        # Process the fetched data
+        seating_info = []
+        for row in rows:
+            
+            passengerID = row['id']
+            passengerName = row['passengerName']
+            seatRow = row['seatRow']
+            seatColumn = row['seatColumn']
+            eTicketNumber = row['eTicketNumber']
+            created = row['created']
+
+            seating_info.append({'id': passengerID, 'passenger_name': passengerName, 'seat_row': seatRow + 1, 'seat_column': seatColumn + 1, 'eTicketNumber': eTicketNumber, 'created': created})
+        return seating_info
+    finally:
+        conn.close()
+
 
 ### Application Functions ###
                     
@@ -81,13 +107,19 @@ def login():
 # Make a reservation page
 @app.route('/reservations', methods=['GET', 'POST'])
 def reservations():
+    ## Get seating info from db
+    seating_info = get_seating_info()
+    print(seating_info)
+
     # Handle reservations page logic here
     form = Reservations()
+
     if form.validate_on_submit():
         ##This is where we will need to take the user parameters and check them with db
         # Redirect to a success page or perform another action
         return "Reservation confirmed! Thank you."
-    return render_template('reservations.html', form=form)
+    
+    return render_template('reservations.html', form=form, seating_info = seating_info)
 
 ## Admin View Page
 @app.route('/adminView', methods={'GET', 'POST'})
