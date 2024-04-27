@@ -7,6 +7,7 @@ from Forms.LoginForm import AdminLogin
 from Forms.ReservationForm import Reservations
 
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -17,6 +18,23 @@ def get_db_connection(db_path='./Database/reservations.db'): #establish db conne
     conn.row_factory = sqlite3.Row
     return conn
 
+# Save new reservation data
+def save_new_user(fname, seatRow, seatColumn, eTicketNumber):
+
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        # Get the current timestamp
+        created = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        # Insert a new row into the 'reservations' table
+        cursor.execute("INSERT INTO reservations (passengerName, seatRow, seatColumn, eTicketNumber, created) VALUES (?, ?, ?, ?, ?)",
+                       (fname, seatRow, seatColumn, eTicketNumber, created))
+        # Commit the transaction
+        conn.commit()
+    finally:
+        conn.close()
+
+# Authorize admin login. Make sure the user logging in is an admin
 def authorize_admin_login(username, password): #authenticate admin login
     conn = get_db_connection()
     try:
@@ -30,15 +48,7 @@ def authorize_admin_login(username, password): #authenticate admin login
     finally:
         conn.close()
 
-def add_reservation(): #add parameters, method to check if reserved spot is already taken, if not add passenger
-    conn = get_db_connection()
-    try:
-        cursor = conn.cursor()
-    finally:
-        conn.close()
-
 # retrieve seating info
-
 def get_seating_info():
     conn = get_db_connection()
 
@@ -72,15 +82,15 @@ def keyCreator(name):
     meshed = ''
 
     # Determine the length of the longer string
-    max_len = max(len(name), len(keyWord))
+    max_len = max(len(name.data), len(keyWord))
     
     # Iterate through both strings simultaneously
     for i in range(max_len):
-        if i < len(name):
-            meshed += name[i]
+        if i < len(name.data):
+            meshed += name.data[i]
         if i < len(keyWord):
             meshed += keyWord[i]
-    
+
     return meshed
 
                     
@@ -135,15 +145,14 @@ def reservations():
 
     if form.validate_on_submit():
         userKey = keyCreator(form.firstName)
-        ### We still need to get the timestamp ###
 
-        #Push new data to the database
-        #This can be done with a function being created in the ^^ Databases functions section
+        # Save new user data to the database
+        save_new_user(form.firstName.data, form.seatRow.data, form.seatColumn.data, userKey)
 
-
+        # Refresh seating info after saving the new user data
         seating_info = get_seating_info()
-        return render_template('reservations.html', form=form, seating_info = seating_info, userKey=userKey) 
-        # return "Reservation confirmed! Thank you."
+
+        return render_template('reservations.html', form=form, seating_info=seating_info, userKey=userKey) 
     
     return render_template('reservations.html', form=form, seating_info = seating_info)
 
