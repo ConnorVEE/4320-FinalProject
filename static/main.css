@@ -1,19 +1,27 @@
 .seating-chart {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 2px; /* Gap between seats */
-}
-
-.column {
     display: flex;
     flex-direction: column;
+    gap: 10px; /* Gap between rows */
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.row-label {
+    margin-right: 10px;
+}
+
+.seats {
+    display: flex;
 }
 
 .seat {
-    width: 40px; /* Adjust as needed */
-    height: 40px; /* Adjust as needed */
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
     border: 1px solid black; /* Border for seats */
-    margin: 2px; /* Adjust as needed */
+    margin-right: 10px; /* Adjust as needed */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,3 +30,4 @@
 .taken {
     background-color: gray; /* Style for taken seats */
 }
+

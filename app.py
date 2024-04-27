@@ -109,7 +109,6 @@ def login():
 def reservations():
     ## Get seating info from db
     seating_info = get_seating_info()
-    print(seating_info)
 
     # Handle reservations page logic here
     form = Reservations()
