@@ -164,7 +164,7 @@ def reservations():
         userKey = keyCreator(form.firstName)
 
         # Save new user data to the database
-        save_new_user(form.firstName.data, form.seatRow.data, form.seatColumn.data, userKey)
+        save_new_user(form.firstName.data, form.seatRow.data - 1, form.seatColumn.data - 1, userKey)
 
         # Refresh seating info after saving the new user data
         seating_info = get_seating_info()
