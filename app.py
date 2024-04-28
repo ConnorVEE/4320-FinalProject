@@ -73,6 +73,23 @@ def get_seating_info():
     finally:
         conn.close()
 
+def get_cost_matrix():
+    cost_matrix = [[100, 75, 50, 100] for _ in range(12)]
+    return cost_matrix
+
+def calculate_total_sales():
+    seating_info = get_seating_info()
+    cost_matrix = get_cost_matrix()
+    total_sales = 0
+
+    for seat in seating_info:
+        row_index = int(seat['seat_row']) - 1
+        col_index = int(seat['seat_column']) - 1
+        seat_price = cost_matrix[row_index][col_index]
+        total_sales += seat_price
+
+    return total_sales
+
 
 ### Application Functions ###
 
@@ -156,14 +173,14 @@ def reservations():
     
     return render_template('reservations.html', form=form, seating_info = seating_info)
 
-
 ## Admin View Page
 @app.route('/adminView', methods={'GET', 'POST'})
 def adminView():
     ## Get seating info from db
     seating_info = get_seating_info()
+    total_Sales = calculate_total_sales()
 
-    return render_template("adminView.html", seating_info = seating_info)
+    return render_template("adminView.html", seating_info = seating_info, total_Sales = total_Sales)
 
 if __name__ == '__main__':
     app.run(debug=True)
