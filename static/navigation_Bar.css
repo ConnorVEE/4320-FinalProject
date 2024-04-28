@@ -1,6 +1,7 @@
 .navbar {
     background-color: darkblue;
     padding: 10px 20px;
+    border-radius: 5px;
 }
 
 .links {
