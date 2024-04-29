@@ -18,6 +18,19 @@ def get_db_connection(db_path='./Database/reservations.db'): #establish db conne
     conn.row_factory = sqlite3.Row
     return conn
 
+# Check if data entry is already present
+def is_user_in_db(seat_row, seat_column):
+    conn = get_db_connection()
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM reservations WHERE seatRow = ? AND seatColumn = ?", (int(seat_row), int(seat_column)))
+        row = cursor.fetchone()
+        return row is not None
+    finally:
+        conn.close()
+
+
 # Save new reservation data
 def save_new_user(fname, seatRow, seatColumn, eTicketNumber):
 
@@ -163,13 +176,19 @@ def reservations():
     if form.validate_on_submit():
         userKey = keyCreator(form.firstName)
 
-        # Save new user data to the database
-        save_new_user(form.firstName.data, form.seatRow.data - 1, form.seatColumn.data - 1, userKey)
+        if is_user_in_db(int(form.seatRow.data) - 1,int(form.seatColumn.data) - 1):
 
-        # Refresh seating info after saving the new user data
-        seating_info = get_seating_info()
+            err = "This seat is already taken, please choose another available seat"
+            return render_template('reservations.html', form=form, seating_info=seating_info, err=err)
+        
+        else:
+            # Save new user data to the database
+            save_new_user(form.firstName.data, form.seatRow.data - 1, form.seatColumn.data - 1, userKey)
 
-        return render_template('reservations.html', form=form, seating_info=seating_info, userKey=userKey) 
+            # Refresh seating info after saving the new user data
+            seating_info = get_seating_info()
+
+            return render_template('reservations.html', form=form, seating_info=seating_info, userKey=userKey)
     
     return render_template('reservations.html', form=form, seating_info = seating_info)
 
