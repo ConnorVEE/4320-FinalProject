@@ -1,7 +1,13 @@
-version: '3.10'
+version: '3.8'
 services:
   web:
     build: 
       context: .
       dockerfile: Dockerfile
-    im
+    container_name: flask-reservations-final
+    ports:
+      - "5003:5000"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_DEBUG: 1

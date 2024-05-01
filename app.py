@@ -10,6 +10,7 @@ import sqlite3
 from datetime import datetime
 
 app = Flask(__name__)
+app.config["DEBUG"] = True
 
 ### Database Functions ###
 
@@ -202,4 +203,4 @@ def adminView():
     return render_template("adminView.html", seating_info = seating_info, total_Sales = total_Sales)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
