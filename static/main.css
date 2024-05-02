@@ -1,5 +1,6 @@
 body {
     background-color: rgb(201, 201, 201);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .seating-chart {
@@ -30,6 +31,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 3px;
 }
 
 .taken {
